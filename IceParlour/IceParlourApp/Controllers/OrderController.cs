@@ -46,11 +46,8 @@ namespace IceParlourApp.Controllers
                     var message = order.CreateOrder(orderModel);
                     ViewBag.Message = message;
                 }
-                else
-                {
-                    orderModel.IceCreamType = iceCream.ListIceCreamTypes();
-                    orderModel.Toppings = iceCream.ListToppings();
-                }
+                orderModel.IceCreamType = iceCream.ListIceCreamTypes();
+                orderModel.Toppings = iceCream.ListToppings();
                 return View(orderModel);
             }
             catch
