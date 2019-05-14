@@ -1,0 +1,101 @@
+﻿@model IceParlourApp.Models.OrderViewModel
+
+@{
+    ViewData["Title"] = "Order Ice Cream";
+}
+
+<h2>Order Ice Cream</h2>
+
+<hr />
+@section Scripts {
+    <script type="text/javascript">
+        $('#ddIceCream').change(function () {
+            GetCost();
+        });
+
+        $("#txtQuantity").on("change", function () {
+            GetCost();
+        });
+        function GetCost() {
+            var selectedIceCream = $("#ddIceCream").val();
+            var quantity = $('#txtQuantity').val();
+            if (selectedIceCream != null && selectedIceCream != 0) {
+                $.getJSON('@Url.Action("GetPrice")', { id: selectedIceCream }, function (price) {
+                    if (price != null && price != 0)
+                    {
+                        if (quantity == null || quantity == 0)
+                            quantity = 1;
+                        else 
+                            $("#txtTotal").val(quantity * price);
+                        $("#TotalAmount").val(quantity * price);
+                    };
+                });
+            }
+        }
+    </script>
+}
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Index">
+            @Html.Hidden("TotalAmount", Model.TotalAmount)
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label" style="color:green">@ViewBag.Message</label>
+
+            </div>
+            <div class="form-group">
+                <label asp-for="IceCreamType" class="control-label"></label>
+                <select asp-for="IceCreamId" asp-items="@Model.IceCreamType" id="ddIceCream" class="form-control"></select>
+
+                <span asp-validation-for="IceCreamId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label"></label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" id="txtQuantity" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Toppings" class="control-label"></label>
+                <select asp-for="ToppingsId" asp-items="@Model.Toppings" class="form-control" id="ddToppings"></select>
+                <span asp-validation-for="ToppingsId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Remarks" class="control-label"></label>
+                <input asp-for="Remarks" class="form-control" />
+                <span asp-validation-for="Remarks" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalAmount" class="control-label"></label>
+                <input asp-for="TotalAmount" class="form-control" id="txtTotal" disabled />
+            </div>
+            <div class="form-group">
+                <label asp-for="PaymentType" class="control-label"></label>
+                <input asp-for="PaymentType" class="form-control" />
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Submit" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
