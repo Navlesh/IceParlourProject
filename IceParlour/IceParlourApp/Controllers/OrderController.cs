@@ -45,15 +45,15 @@ namespace IceParlourApp.Controllers
                 {                    
                     var message = order.CreateOrder(orderModel);
                     ViewBag.Message = message;
-                }
-                orderModel.IceCreamType = iceCream.ListIceCreamTypes();
-                orderModel.Toppings = iceCream.ListToppings();
-                return View(orderModel);
+                }                
             }
             catch
             {
-                return View();
+               
             }
+            orderModel.IceCreamType = iceCream.ListIceCreamTypes();
+            orderModel.Toppings = iceCream.ListToppings();
+            return View(orderModel);
         }
     }
 }
